@@ -1,0 +1,20 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+test-output/
+
+# Intellij
+.idea
+*.ipr
+*.iws
+*.iml
+*.svn
+
+# Maven
+log/
+target/
+.DS_Store
+*.log
+*.out
