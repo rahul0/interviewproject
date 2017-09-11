@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 public class Board
 {
+
     final static Logger logger = Logger.getLogger(Board.class);
     private HashSet<Ship> ships= new HashSet<>();
     private Cell[][] cells;
@@ -86,29 +87,41 @@ public class Board
     }
 
 
-    public boolean attack(int x, int y){
+    public GAME_STATUS attack(int x, int y){
+
 
         if(x < 0 || y<0 || x>=NUM_ROWS || y>NUM_ROWS){
             logger.error("Position is not valid. Please retry");
-            return false;
+            return GAME_STATUS.NONE;
         }
         Cell l = cells[x][y];
+        GAME_STATUS result;
 
+        // if  a miss
         if(!l.isOccupied()){
-            l.setAttacked(true);
-            System.out.println("Miss");
-            return false;
-        }else{
             if(l.isAttacked()){
-                System.out.println("Already Taken");
-                return false;
+//                System.out.println("Already Taken");
+                result= GAME_STATUS.ALREADY_TAKEN;
             }else{
+                result= GAME_STATUS.MISS;
+//                System.out.println("Miss");
+            }
+            l.setAttacked(true);
+
+//            return false;
+        }else{ //every thing is occupied in this flow
+            if(l.isAttacked()){
+                result= GAME_STATUS.ALREADY_TAKEN;
+            }else{
+//                GAME_STATUS result;
                 l.setAttacked(true);
-                System.out.println("Hit");
+                result= GAME_STATUS.HIT;
+//                System.out.println("Hit");
                 Ship s=l.getShip();
                 s.hit(x,y);
                 if(s.isSunk()){
-                    System.out.println("Sunk");
+                    result=GAME_STATUS.SUNK;
+//                    System.out.println("Sunk");
                     boolean allSunk=false;
                     for(Ship ship: ships){
                         allSunk=ship.isSunk();
@@ -117,16 +130,15 @@ public class Board
                         }
                     }
                     if(allSunk){
-                        System.out.println("Win");
-                        return true;
-                    }else{
-                        return false;
+                        result=GAME_STATUS.WIN;
+//                        System.out.println("Win");
+//                        return true;
                     }
                 }
             }
         }
 
-        return false;
+        return result;
     }
 
     public HashSet<Ship> getShips() {

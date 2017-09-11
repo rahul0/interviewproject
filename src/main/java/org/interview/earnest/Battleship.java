@@ -19,6 +19,8 @@ public class Battleship {
 
     public static void playGame(Battleship bs) {
         System.out.println("----Game Setup----");
+
+
         System.out.println("----Enter ship count----");
         String gridShipCountStringified = reader.nextLine();
 
@@ -35,7 +37,22 @@ public class Battleship {
 
     public static void main(String[] args) {
 
-        int board_size=5;
+        int board_size=-1;
+
+
+        while(board_size <=0){
+            System.out.println("please enter board size");
+            String board_size_stringified = reader.nextLine();
+            try{
+
+                board_size=Integer.valueOf(board_size_stringified);
+            }catch (NumberFormatException ne){
+                ne.printStackTrace();
+            }
+        }
+
+
+
         Battleship bs = new Battleship(board_size);
         playGame(bs);
     }
@@ -154,16 +171,18 @@ public class Battleship {
 
     //Just a wrapper around attck in Board class
     public void attack(Scanner scanner) {
-        boolean win = false;
+//        boolean win = false;
+        GAME_STATUS win=GAME_STATUS.NONE;
         HashMap<String, Integer> pos_map = new HashMap<>();
 
-        while (!win) {
+        while (win!=GAME_STATUS.WIN) {
             Board.printShip(board, 2);
             System.out.println("Play");
             extractRowColumnFromCMD(scanner, pos_map);
             int row = pos_map.get("row");
             int col = pos_map.get("col");
             win = board.attack(row, col);
+            System.out.println(win);
         }
     }
 }
