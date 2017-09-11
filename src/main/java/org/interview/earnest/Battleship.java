@@ -19,13 +19,13 @@ public class Battleship {
 
     public static void playGame(Battleship bs) {
         System.out.println("----Game Setup----");
-        System.out.println("----Enter ship count, max: 5 ----\n");
-        String grid_ship_count_stringified = reader.nextLine();
+        System.out.println("----Enter ship count----");
+        String gridShipCountStringified = reader.nextLine();
 
         try {
-            bs.shipCount = Integer.valueOf(grid_ship_count_stringified);
+            bs.shipCount = Integer.valueOf(gridShipCountStringified);
         } catch (NumberFormatException ne) {
-            logger.debug("input:" + grid_ship_count_stringified);
+            logger.debug("input:" + gridShipCountStringified);
         }
 
         System.out.println("----Setup Board----");
