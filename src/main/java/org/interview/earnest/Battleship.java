@@ -12,8 +12,8 @@ public class Battleship {
     int shipCount = -1;
     Board board;
 
-    public Battleship() {
-        board = new Board(4);
+    public Battleship(int board_size) {
+        board = new Board(board_size);
 
     }
 
@@ -35,7 +35,8 @@ public class Battleship {
 
     public static void main(String[] args) {
 
-        Battleship bs = new Battleship();
+        int board_size=5;
+        Battleship bs = new Battleship(board_size);
         playGame(bs);
     }
 
