@@ -50,8 +50,11 @@ public class Battleship {
         try {
             int ship_size = Integer.valueOf(ship_size_string);
             ship.setLength(ship_size);
-            succuess = true;
-            logger.debug("ship size: " + ship_size);
+            if(ship_size>0){
+                succuess = true;
+            }
+
+//            logger.debug("ship size: " + ship_size);
         } catch (NumberFormatException ne) {
             logger.error("wrong ship size: " + ship_size_string + ". Please retry.");
         }
@@ -60,7 +63,7 @@ public class Battleship {
 
     private boolean extractDirectionFromCMD(Scanner reader, Ship ship) {
 
-        System.out.println("Enter ship orientation 1:Vertical 0: Horizental");
+        System.out.println("Enter ship orientation 0: Horizontal, 1:Vertical ");
         boolean success = false;
         String ship_direction_string = reader.nextLine();
 
@@ -76,7 +79,7 @@ public class Battleship {
     }
 
     private boolean extractRowColumnFromCMD(Scanner reader, HashMap<String, Integer> pos_map) {
-        System.out.println("Enter row, column (r1,c1) etc, no validation");
+        System.out.println("Enter row, column like (r1,c1) or (1,2)");
         String position = reader.nextLine();
         boolean success = false;
         try {
@@ -92,6 +95,8 @@ public class Battleship {
         } catch (NumberFormatException ne) {
             logger.error("Couldn't extract row & column from input: " + position.trim());
 
+        }catch (ArrayIndexOutOfBoundsException ae){
+            logger.error("Possibly bad input: " + position.trim() + " retry!");
         }
         return success;
     }
